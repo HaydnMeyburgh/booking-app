@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 )
 
 // Package level variables can not be declared using shorthand syntax
@@ -13,9 +14,9 @@ var remainingTickets int = 50
 var bookings = make([]UserData, 0)
 
 type UserData struct {
-	firstName string
-	lastName string
-	email string
+	firstName       string
+	lastName        string
+	email           string
 	numberOfTickets int
 }
 
@@ -31,6 +32,7 @@ func main() {
 		if isValidName && isValidEmail && isValidTicketNumber {
 
 			bookTicket(userTickets, firstName, lastName, email)
+			go sendTicket(userTickets, firstName, lastName, email)
 
 			firstNames := getFirstNames()
 			fmt.Printf("The first names of bookings so far: %v\n", firstNames)
@@ -93,14 +95,23 @@ func bookTicket(userTickets int, firstName string, lastName string, email string
 	remainingTickets -= userTickets
 
 	//Creating user data
-	var userData = UserData {
-		firstName: firstName,
-		lastName: lastName,
-		email: email,
+	var userData = UserData{
+		firstName:       firstName,
+		lastName:        lastName,
+		email:           email,
 		numberOfTickets: userTickets,
 	}
 
 	bookings = append(bookings, userData)
 	fmt.Printf("Thank you %v %v for booking %v tickets. Expect your confirmation email to be sent to %v shortly.\n", firstName, lastName, userTickets, email)
 	fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
+}
+
+// Simulating sending a ticket and the time it'll take to create and send the ticket
+func sendTicket(userTickets int, firstName string, lastName string, email string) {
+	time.Sleep(10 * time.Second)
+	var ticket = fmt.Sprintf("%v tickets for %v %v", userTickets, firstName, lastName)
+	fmt.Println("##############")
+	fmt.Printf("Sending ticket:\n %v \nto %v\n", ticket, email)
+	fmt.Println("##############")
 }
