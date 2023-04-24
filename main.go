@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"strconv"
 )
 
 // Package level variables can not be declared using shorthand syntax
@@ -11,7 +10,14 @@ var conferenceName = "Games Fest"
 const conferenceTickets int = 50
 
 var remainingTickets int = 50
-var bookings = make([]map[string]string, 1)
+var bookings = make([]UserData, 0)
+
+type UserData struct {
+	firstName string
+	lastName string
+	email string
+	numberOfTickets int
+}
 
 func main() {
 
@@ -57,7 +63,7 @@ func greetUsers() {
 func getFirstNames() []string {
 	firstNames := []string{}
 	for _, booking := range bookings {
-		firstNames = append(firstNames, booking["firstName"])
+		firstNames = append(firstNames, booking.firstName)
 	}
 	return firstNames
 }
@@ -86,12 +92,13 @@ func getUserInput() (string, string, string, int) {
 func bookTicket(userTickets int, firstName string, lastName string, email string) {
 	remainingTickets -= userTickets
 
-	//Creating user map
-	var userData = make(map[string]string)
-	userData["firstName"] = firstName
-	userData["lastName"] = lastName
-	userData["email"] = email
-	userData["NumTickets"] = strconv.FormatInt(int64(userTickets), 10)
+	//Creating user data
+	var userData = UserData {
+		firstName: firstName,
+		lastName: lastName,
+		email: email,
+		numberOfTickets: userTickets,
+	}
 
 	bookings = append(bookings, userData)
 	fmt.Printf("Thank you %v %v for booking %v tickets. Expect your confirmation email to be sent to %v shortly.\n", firstName, lastName, userTickets, email)
