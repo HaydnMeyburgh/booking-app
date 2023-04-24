@@ -28,7 +28,7 @@ func main() {
 
 			firstNames := getFirstNames()
 			fmt.Printf("The first names of bookings so far: %v\n", firstNames)
-			
+
 			if remainingTickets == 0 {
 				// end the program
 				fmt.Println("All the tickets have been sold!")
@@ -61,13 +61,6 @@ func getFirstNames() []string {
 		firstNames = append(firstNames, names[0])
 	}
 	return firstNames
-}
-
-func validUserInput(firstName string, lastName string, email string, userTickets int) (bool, bool, bool) {
-	isValidName := len(firstName) >= 2 && len(lastName) >= 2
-	isValidEmail := strings.Contains(email, "@")
-	isValidTicketNumber := userTickets > 0 && userTickets <= remainingTickets
-	return isValidName, isValidEmail, isValidTicketNumber
 }
 
 func getUserInput() (string, string, string, int) {
